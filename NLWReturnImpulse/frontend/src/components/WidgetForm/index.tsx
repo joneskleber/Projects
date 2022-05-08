@@ -72,13 +72,19 @@ export function WidgetForm() {
         </>
       )}
 
-      <footer className="text-xs text-neutral-400">
+      <footer className="text-xs text-neutral-400 items-center">
         Feito com ♥ pela{" "}
         <a
           className="underline underline-offset-2"
-          href="https://visao-ol.com.br"
+          href="https://www.rocketseat.com.br/"
         >
-          Visão On-line
+          Rocketseat
+        </a>
+        <a
+          className="underline underline-offset-2 items-center flex flex-col"
+          href="https://joneskleber.eti.br"
+        >
+          © Jones Kleber
         </a>
       </footer>
     </div>
