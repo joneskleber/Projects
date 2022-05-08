@@ -6,4 +6,3 @@ package-lock.json
 *.lock
 
 .env
-.env*
