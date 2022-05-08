@@ -1,0 +1,9 @@
+node_modules
+.history
+dist
+
+package-lock.json
+*.lock
+
+.env
+.env*
