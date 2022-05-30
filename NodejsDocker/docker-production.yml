@@ -1,7 +1,6 @@
 version: "3.3"
 
 services:
-
   traefik:
     image: "traefik:v2.7"
     container_name: "traefik"
@@ -16,6 +15,8 @@ services:
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    pilot:
+      - token: "92502b99-dfa6-432a-9605-3109d56106a7"
 
   whoami:
     image: "traefik/whoami"
