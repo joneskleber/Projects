@@ -1,0 +1,13 @@
+{
+  "name": "deployAWSDocker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1",
+    "yarn": "^1.22.18"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
