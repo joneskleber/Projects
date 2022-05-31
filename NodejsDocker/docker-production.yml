@@ -15,8 +15,6 @@ services:
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    pilot:
-      - token: "92502b99-dfa6-432a-9605-3109d56106a7"
 
   whoami:
     image: "traefik/whoami"
