@@ -18,7 +18,7 @@ services:
 
   whoami:
     image: "traefik/whoami"
-    container_name: "traefik3000"
+    container_name: "simple-service"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`api.visao-ol.com.br`)"

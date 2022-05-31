@@ -14,3 +14,4 @@ app.listen(3000);
 
 // executar o comando  para subir a aplicação
 // sudo docker-compose -f docker-compose.yml -f docker-production.yml up --build -d
+// https://doc.traefik.io/traefik/user-guides/docker-compose/basic-example/

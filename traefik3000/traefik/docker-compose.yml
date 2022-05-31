@@ -1,7 +1,6 @@
-version: '3'
+version: "3"
 
 services:
-
   traefik:
     image: traefik:latest
     command: --docker --docker.domain=hakase-labs.io
