@@ -16,6 +16,8 @@ services:
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
     container_name: traefik
     restart: always
 
@@ -26,7 +28,10 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`api.visao-ol.com.br`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-
-networks:
-  proxy:
-    external: true
+  # app:
+  #   image: "traefik/app"
+  #   container_name: "simple-service1"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.app.rule=Host(`api.jones.dev.br`)"
+  #     - "traefik.http.routers.app.entrypoints=web"
