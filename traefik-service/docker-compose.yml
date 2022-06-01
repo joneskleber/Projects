@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: traefik:latest
+    command:
+      #- "--log.level=DEBUG"
+      - "--docker --docker.domain=hakase-labs.io"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
+    container_name: traefik
+    restart: always
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`api.visao-ol.com.br`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+  # app:
+  #   image: "traefik/app"
+  #   container_name: "simple-service1"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.app.rule=Host(`api.jones.dev.br`)"
+  #     - "traefik.http.routers.app.entrypoints=web"
