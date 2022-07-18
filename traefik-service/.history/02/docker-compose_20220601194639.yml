@@ -1,31 +1,55 @@
-version: "3.3"
+version: "3"
 
 services:
-  vowsgateway:
-    image: node:16-alpine
-    container_name: vowsgateway
+  mongo:
+    image: mongo:latest
+    container_name: pritunldb
     restart: always
-    hostname: vowsgateway
+    hostname: pritunldb
+    volumes:
+      - ./db:/data/db
+
+  pritunl:
+    image: goofball222/pritunl:latest
+    container_name: pritunl
+    restart: always
+    hostname: pritunl
+    depends_on:
+      - mongo
+    privileged: true
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    links:
+      - mongo
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 10447:10447/udp
+    expose:
+      - 443
+    environment:
+      - TZ=America/Sao_Paulo
+      - MONGODB_URI=mongodb://mongo:27017/pritunl
+      - REVERSE_PROXY=true
+      - WIREGUARD=true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.vowsgateway.service=vowsgateway"
-      - "traefik.http.services.vowsgateway.loadbalancer.server.port=9002"
-      - "traefik.http.services.vowsgateway.loadbalancer.server.scheme=https"
-      - "traefik.http.routers.vowsgateway.rule=Host(`http://localhost`)"
-      - "traefik.http.routers.vowsgateway.tls.certresolver=leresolver"
-      - "traefik.http.routers.vowsgateway.entrypoints=websecure"
+      - "traefik.http.routers.pritunl.service=pritunl"
+      - "traefik.http.services.pritunl.loadbalancer.server.port=443"
+      - "traefik.http.services.pritunl.loadbalancer.server.scheme=https"
+      - "traefik.http.routers.pritunl.rule=Host(`vpn.aldeiacloud.com.br`)"
+      - "traefik.http.routers.pritunl.tls.certresolver=leresolver"
+      - "traefik.http.routers.pritunl.entrypoints=websecure"
 
   traefik:
-    image: "traefik:v2.7"
-    container_name: "traefik"
+    image: traefik:v2.2
+    container_name: traefik
     restart: always
     command:
-      - --log.level=DEBUG
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --providers.docker=true
       - --api
-      - --providers.docker.exposedbydefault=false
       - --certificatesresolvers.leresolver.acme.email=visao@visao.com.br
       - --certificatesresolvers.leresolver.acme.storage=/acme.json
       - --certificatesresolvers.leresolver.acme.tlschallenge=true
@@ -33,6 +57,7 @@ services:
       - --providers.file.filename=/dynamic_conf.yml
     ports:
       - "80:80"
+      - "8080:8080"
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

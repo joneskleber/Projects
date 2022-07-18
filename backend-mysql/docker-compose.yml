@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: dev-jones
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=jones1020
+      - POSTGRES_DB=database-1-instance-1.c9o4tiydab97.us-east-1.rds.amazonaws.com
+    ports:
+      - "5431:5432"
+    volumes:
+      - dev-jones:/var/lib/postgresql/data
+volumes:
+  dev-jones:

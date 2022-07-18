@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
     `);
 });
 
-app.listen(3000);
+app.listen(9002);
 
 // executar o comando  para subir a aplicação
 // sudo docker-compose -f docker-compose.yml -f docker-production.yml up --build -d
